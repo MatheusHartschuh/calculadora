@@ -7,19 +7,38 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
-  let background = theme.colors.numeric; // padrão números
-  let color = theme.colors.text;
+let background = theme.colors.numeric;
+let color = theme.colors.text;
 
-  if (["+", "*"].includes(label)) {
+switch (label) {
+  case "+":
+  case "*":
     background = theme.colors.green;
     color = theme.colors.white;
-  } else if (["-", "/"].includes(label)) {
+    break;
+
+  case "-":
+  case "/":
     background = theme.colors.red;
     color = theme.colors.white;
-  } else if (["=", "C", "←"].includes(label)) {
-    background = theme.colors.highlight;
+    break;
+
+  case "=":
+    background = theme.colors.blue;
     color = theme.colors.white;
-  }
+    break;
+
+  case "C":
+  case "←":
+    background = theme.colors.orange;
+    color = theme.colors.white;
+    break;
+
+  default:
+    background = theme.colors.numeric;
+    color = theme.colors.text;
+    break;
+}
 
   return (
     <button
@@ -36,7 +55,7 @@ const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
         transition: "all 0.2s",
       }}
       onMouseOver={(e) =>
-        ((e.target as HTMLButtonElement).style.opacity = "0.85")
+        ((e.target as HTMLButtonElement).style.opacity = "0.8")
       }
       onMouseOut={(e) =>
         ((e.target as HTMLButtonElement).style.opacity = "1")
