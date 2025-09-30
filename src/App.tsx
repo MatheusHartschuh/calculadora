@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Display from "./components/display";
 import Keypad from "./components/keypad";
+import { evaluateExpression } from "./logic/calculate";
 
 function App() {
   const [expression, setExpression] = useState("");
@@ -11,7 +12,8 @@ function App() {
     } else if (key === "←") {
       setExpression(expression.slice(0, -1));
     } else if (key === "=") {
-      setExpression("= TODO");
+      const result = evaluateExpression(expression);
+      setExpression(result);
     } else {
       setExpression(expression + key);
     }
