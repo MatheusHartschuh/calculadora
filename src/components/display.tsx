@@ -1,4 +1,5 @@
 import React from "react";
+import { theme } from "../style/theme";
 
 interface DisplayProps {
   value: string;
@@ -8,13 +9,15 @@ const Display: React.FC<DisplayProps> = ({ value }) => {
   return (
     <div
       style={{
-        background: "#0b1222",
-        color: "white",
-        padding: "1rem",
-        borderRadius: "8px",
-        fontSize: "1.5rem",
+        backgroundColor: theme.colors.numeric,
+        color: theme.colors.text,
+        fontSize: theme.font.size.large,
+        padding: theme.spacing(2),
+        borderRadius: theme.borderRadius,
         textAlign: "right",
-        minHeight: "3rem",
+        boxShadow: theme.boxShadow,
+        minHeight: "2rem",
+        marginBottom: theme.spacing(1),
       }}
     >
       {value || "0"}

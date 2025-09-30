@@ -1,15 +1,17 @@
 import React from "react";
 import Button from "./button";
+import { theme } from "../style/theme";
+
 
 interface KeypadProps {
   onKeyPress: (key: string) => void;
 }
 
 const keys = [
-  "7","8","9","/",
+  "7","8","9","+",
   "4","5","6","*",
   "1","2","3","-",
-  "0",".","=","+",
+  "0",".","=","/",
   "C","←"
 ];
 
@@ -19,8 +21,8 @@ const Keypad: React.FC<KeypadProps> = ({ onKeyPress }) => {
       style={{
         display: "grid",
         gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "8px",
-        marginTop: "1rem",
+        gap: theme.spacing(1),
+        marginTop: theme.spacing(2),
       }}
     >
       {keys.map((k) => (
