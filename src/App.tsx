@@ -23,7 +23,7 @@ function App() {
     >
       <div
         style={{
-          width: "360px",
+          width: "700px",
           padding: theme.spacing(3),
           borderRadius: theme.borderRadius,
           backgroundColor: theme.colors.white,

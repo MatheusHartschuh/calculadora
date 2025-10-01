@@ -1,4 +1,5 @@
 import { evaluateExpression } from "./calculate";
+import {  } from "./helper";
 
 export function handleKeyPress(
   key: string,
@@ -16,7 +17,7 @@ export function handleKeyPress(
 
     case "=":
       setExpression(evaluateExpression(expression));
-      break;
+    break;
 
     case "(":
     case ")":
@@ -56,6 +57,24 @@ export function handleKeyPress(
         setExpression(expression.slice(0, -match[0].length) + sqrted);
     }
     break;
+    }
+
+    case ",": {
+      const match = expression.match(/(-?\d+(\.\d*)?)$/);
+
+      if (!match) {
+        setExpression(expression + "0.");
+        break;
+      }
+
+      const lastNumber = match[0];
+
+      if (lastNumber.includes(".")) {
+        break;
+      }
+
+      setExpression(expression + ".");
+      break;
     }
 
 
