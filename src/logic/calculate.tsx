@@ -1,6 +1,10 @@
 export function evaluateExpression(expr: string): string {
   try {
-    const sanitized = expr.replace(/[^-()\d/*+.]/g, "");
+    let sanitized = expr.replace(/[^-()\d/*+.√^]/g, "");
+
+    sanitized = sanitized.replace(/\^/g, "**");
+
+    sanitized = sanitized.replace(/√(\d+\.?\d*)/g, "Math.sqrt($1)");
 
     const result = Function(`"use strict"; return (${sanitized})`)();
 

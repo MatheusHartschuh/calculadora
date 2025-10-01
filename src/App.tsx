@@ -2,18 +2,14 @@ import React, { useState } from "react";
 import Display from "./components/display";
 import Keypad from "./components/keypad";
 import { evaluateExpression } from "./logic/calculate";
+import { handleKeyPress } from "./logic/handleKeyPress";
 import { theme } from "./style/theme";
 
 
 function App() {
   const [expression, setExpression] = useState("");
 
-  const handleKeyPress = (key: string) => {
-    if (key === "C") setExpression("");
-    else if (key === "←") setExpression(expression.slice(0, -1));
-    else if (key === "=") setExpression(evaluateExpression(expression));
-    else setExpression(expression + key);
-  };
+  const onKeyPress = (key: string) => handleKeyPress(key, expression, setExpression);
 
   return (
     <div
@@ -38,7 +34,7 @@ function App() {
           Calculadora
         </h2>
         <Display value={expression} />
-        <Keypad onKeyPress={handleKeyPress} />
+        <Keypad onKeyPress={onKeyPress} />
       </div>
     </div>
   );

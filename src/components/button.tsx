@@ -7,38 +7,49 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
-let background = theme.colors.numeric;
-let color = theme.colors.text;
+    let background = theme.colors.numeric;
+    let color = theme.colors.text;
 
-switch (label) {
-  case "+":
-  case "*":
-    background = theme.colors.green;
-    color = theme.colors.white;
-    break;
+    switch (label) {
+    case "+":
+    case "*":
+    case "x²":
+    case "^":
+        background = theme.colors.green;
+        color = theme.colors.white;
+        break;
 
-  case "-":
-  case "/":
-    background = theme.colors.red;
-    color = theme.colors.white;
-    break;
+    case "-":
+    case "/":
+    case "√":
+        background = theme.colors.red;
+        color = theme.colors.white;
+        break;
 
-  case "=":
-    background = theme.colors.blue;
-    color = theme.colors.white;
-    break;
+    case "=":
+    case "+/-":
+        background = theme.colors.blue;
+        color = theme.colors.white;
+        break;
 
-  case "C":
-  case "←":
-    background = theme.colors.orange;
-    color = theme.colors.white;
-    break;
+    case "C":
+    case "AC":
+        background = theme.colors.orange;
+        color = theme.colors.white;
+        break;
 
-  default:
-    background = theme.colors.numeric;
-    color = theme.colors.text;
-    break;
-}
+    case "(":
+    case ")":
+        background = theme.colors.numeric;
+        color = theme.colors.text;
+        break;
+
+    default:
+        background = theme.colors.numeric;
+        color = theme.colors.text;
+        break;
+    }
+
 
   return (
     <button
