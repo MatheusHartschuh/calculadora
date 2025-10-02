@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import Display from "./components/display";
 import Keypad from "./components/keypad";
-import { evaluateExpression } from "./logic/calculate";
 import { handleKeyPress } from "./logic/handleKeyPress";
 import { theme } from "./style/theme";
+import MemoryPanel from "./components/memoryPanel";
 
 
 function App() {
   const [expression, setExpression] = useState("");
+  const [memory, setMemory] = useState<number[]>([]);
 
-  const onKeyPress = (key: string) => handleKeyPress(key, expression, setExpression);
+  const onKeyPress = (key: string) =>
+    handleKeyPress(key, expression, setExpression, memory, setMemory);
 
   return (
     <div
@@ -23,7 +25,7 @@ function App() {
     >
       <div
         style={{
-          width: "700px",
+          width: "360px",
           padding: theme.spacing(3),
           borderRadius: theme.borderRadius,
           backgroundColor: theme.colors.white,
@@ -36,6 +38,12 @@ function App() {
         <Display value={expression} />
         <Keypad onKeyPress={onKeyPress} />
       </div>
+
+      <MemoryPanel
+        memory={memory}
+        setMemory={setMemory}
+        onRecall={(val) => setExpression(expression + val.toString())}
+      />
     </div>
   );
 }

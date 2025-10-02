@@ -1,23 +1,25 @@
 import { evaluateExpression } from "./calculate";
-import {  } from "./helper";
+import { } from "./helper";
 
 export function handleKeyPress(
   key: string,
   expression: string,
-  setExpression: (expr: string) => void
+  setExpression: (expr: string) => void,
+  memory: number[],
+  setMemory: React.Dispatch<React.SetStateAction<number[]>>
 ) {
   switch (key) {
-    case "AC":
+    case "AC": // All Clear
       setExpression("");
       break;
 
-    case "C":
+    case "C": // Clear
       setExpression(expression.slice(0, -1));
       break;
 
     case "=":
       setExpression(evaluateExpression(expression));
-    break;
+      break;
 
     case "(":
     case ")":
@@ -35,28 +37,28 @@ export function handleKeyPress(
     }
 
     case "x²": {
-    const match = expression.match(/(-?\d+\.?\d*)$/);
-    if (match) {
+      const match = expression.match(/(-?\d+\.?\d*)$/);
+      if (match) {
         const num = parseFloat(match[0]);
         const squared = (num ** 2).toString();
         setExpression(expression.slice(0, -match[0].length) + squared);
-    }
-    break;
+      }
+      break;
     }
 
     case "^": {
-    setExpression(expression + "^");
-    break;
+      setExpression(expression + "^");
+      break;
     }
 
     case "√": {
-    const match = expression.match(/(-?\d+\.?\d*)$/);
-    if (match) {
+      const match = expression.match(/(-?\d+\.?\d*)$/);
+      if (match) {
         const num = parseFloat(match[0]);
         const sqrted = Math.sqrt(num).toString();
         setExpression(expression.slice(0, -match[0].length) + sqrted);
-    }
-    break;
+      }
+      break;
     }
 
     case ",": {
@@ -77,6 +79,32 @@ export function handleKeyPress(
       break;
     }
 
+    case "MC": // Memory Clear
+      setMemory([]);
+      break;
+
+    case "M+": // Memory Add
+      {
+        const match = expression.match(/-?\d+(\.\d+)?$/);
+        const current = match ? parseFloat(match[0]) : 0;
+        setMemory((prev) => [...prev, current]);
+      }
+      break;
+
+    case "M-": // Memory Subtract
+      {
+        const match = expression.match(/-?\d+(\.\d+)?$/);
+        const current = match ? parseFloat(match[0]) : 0;
+        setMemory((prev) => [...prev, -current]);
+      }
+      break;
+
+    case "MR": // Memory Recall
+      if (memory.length > 0) {
+        const last = memory[memory.length - 1];
+        setExpression(expression + last.toString());
+      }
+      break;
 
     default:
       setExpression(expression + key);
