@@ -34,10 +34,6 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ history, onRecall }) => {
               cursor: "pointer",
               textAlign: "right",
             }}
-            onClick={() => {
-              const expr = item.split(" = ")[0].replace(",", ".");
-              onRecall(expr);
-            }}
           >
             {formatExpression(item.replace(/\./g, ","))}
           </div>

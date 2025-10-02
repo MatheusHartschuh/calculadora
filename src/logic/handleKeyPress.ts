@@ -1,5 +1,5 @@
 import { evaluateExpression } from "./calculate";
-import { } from "./helper";
+import { applyToExpression } from "./helper";
 
 export function handleKeyPress(
   key: string,
@@ -61,53 +61,40 @@ export function handleKeyPress(
       }
       break;
 
-    case "+/-": {
-      const match = expression.match(/(-?\d+\.?\d*)$/);
-      if (match) {
-        const num = match[0];
-        const inverted = num.startsWith("-") ? num.slice(1) : "-" + num;
-        setExpression(expression.slice(0, -num.length) + inverted);
-      }
-      break;
-    }
-
     case "x²": {
-      const match = expression.match(/(-?\d+\.?\d*)$/);
-      if (match) {
-        const num = parseFloat(match[0]);
-        const squared = (num ** 2).toString();
-        const newExpr = expression.slice(0, -match[0].length) + squared;
-        setExpression(newExpr);
-
-        setHistory((prev) => {
-          const newHistory = [...prev, `${num}² = ${squared}`];
-          if (newHistory.length > 10) newHistory.shift();
-          return newHistory;
-        });
-      }
+      applyToExpression(
+        expression,
+        evaluateExpression,
+        setExpression,
+        setHistory,
+        (n) => n ** 2,
+        (expr, res) => `(${expr})² = ${res}`
+      );
       break;
     }
 
     case "√": {
-      const match = expression.match(/(-?\d+\.?\d*)$/);
-      if (match) {
-        const num = parseFloat(match[0]);
+      applyToExpression(
+        expression,
+        evaluateExpression,
+        setExpression,
+        setHistory,
+        (n) => (n < 0 ? NaN : Math.sqrt(n)),
+        (expr, res) => `√(${expr}) = ${res}`
+      );
+      break;
+    }
 
-        if (num < 0) {
-          setExpression("Erro");
-          break;
-        }
-
-        const sqrted = Math.sqrt(num).toString();
-        const newExpr = expression.slice(0, -match[0].length) + sqrted;
-        setExpression(newExpr);
-
-        setHistory((prev) => {
-          const newHistory = [...prev, `√${num} = ${sqrted}`];
-          if (newHistory.length > 10) newHistory.shift();
-          return newHistory;
-        });
-      }
+    case "+/-": {
+      applyToExpression(
+        expression,
+        evaluateExpression,
+        setExpression,
+        setHistory,
+        (n) => -n,
+        (expr, res) => `±(${expr}) = ${res}`,
+        false
+      );
       break;
     }
 
@@ -175,7 +162,7 @@ export function handleKeyPress(
       const operators = "+-*/^(";
 
       if (!expression || operators.includes(lastChar)) {
-        setExpression(expression + Math.PI.toFixed(2));
+        setExpression(expression + Math.PI.toFixed(6));
       }
       break;
 
