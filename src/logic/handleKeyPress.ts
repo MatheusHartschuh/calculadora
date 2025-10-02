@@ -9,6 +9,21 @@ export function handleKeyPress(
   setMemory: React.Dispatch<React.SetStateAction<number[]>>,
   setHistory: React.Dispatch<React.SetStateAction<string[]>>,
 ) {
+  if (expression === "Erro") {
+    if (key === "AC") {
+      setExpression("");
+      return;
+    }
+
+    if (/[\d,]/.test(key)) {
+      setExpression(key === "," ? "0." : key);
+      return;
+    }
+
+    setExpression("");
+    return;
+  }
+
   switch (key) {
     case "AC": // All Clear
       setExpression("");
@@ -68,6 +83,12 @@ export function handleKeyPress(
       const match = expression.match(/(-?\d+\.?\d*)$/);
       if (match) {
         const num = parseFloat(match[0]);
+
+        if (num < 0) {
+          setExpression("Erro");
+          break;
+        }
+
         const sqrted = Math.sqrt(num).toString();
         const newExpr = expression.slice(0, -match[0].length) + sqrted;
         setExpression(newExpr);
@@ -80,6 +101,7 @@ export function handleKeyPress(
       }
       break;
     }
+
 
     case "^": {
       setExpression(expression + "^");
@@ -132,7 +154,12 @@ export function handleKeyPress(
       break;
 
     case "π":
-      setExpression(expression + Math.PI.toFixed(2).toString());
+      const lastChar = expression.slice(-1);
+      const operators = "+-*/^(";
+
+      if (!expression || operators.includes(lastChar)) {
+        setExpression(expression + Math.PI.toFixed(2));
+      }
       break;
 
     default:

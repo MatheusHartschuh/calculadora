@@ -8,12 +8,11 @@ export function evaluateExpression(expr: string): string {
 
     const result = Function(`"use strict"; return (${sanitized})`)();
 
-    const formatted =
-      typeof result === "number" && !isNaN(result)
-        ? Number(result.toFixed(6)).toString()
-        : "Erro";
+    if (typeof result !== "number" || isNaN(result) || !isFinite(result)) {
+      return "Erro";
+    }
 
-    return formatted;
+    return Number(result.toFixed(6)).toString();
   } catch (err) {
     return "Erro";
   }
