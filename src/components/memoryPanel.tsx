@@ -11,7 +11,7 @@ const MemoryPanel: React.FC<MemoryPanelProps> = ({ memory, setMemory, onRecall }
   return (
     <div
       style={{
-        width: "100px",
+        width: "200px",
         marginLeft: theme.spacing(2),
         padding: theme.spacing(1),
         backgroundColor: theme.colors.numeric,

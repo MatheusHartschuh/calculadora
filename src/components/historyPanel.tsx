@@ -11,7 +11,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ history, onRecall }) => {
   return (
     <div
       style={{
-        width: "120px",
+        width: "200px",
         marginRight: theme.spacing(2),
         padding: theme.spacing(1),
         backgroundColor: theme.colors.numeric,

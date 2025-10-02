@@ -48,8 +48,17 @@ export function handleKeyPress(
       break;
 
     case "(":
-    case ")":
       setExpression(expression + key);
+      break;
+
+    case ")":
+      const openCount = (expression.match(/\(/g) || []).length;
+      const closeCount = (expression.match(/\)/g) || []).length;
+
+      //Só adiciona ')' se houver '(' antes
+      if (openCount > closeCount) {
+        setExpression(expression + ")");
+      }
       break;
 
     case "+/-": {
@@ -102,12 +111,6 @@ export function handleKeyPress(
       break;
     }
 
-
-    case "^": {
-      setExpression(expression + "^");
-      break;
-    }
-
     case ",": {
       const match = expression.match(/(-?\d+(\.\d*)?)$/);
 
@@ -123,6 +126,20 @@ export function handleKeyPress(
       }
 
       setExpression(expression + ".");
+      break;
+    }
+
+    case "+":
+    case "-":
+    case "*":
+    case "/":
+    case "^": {
+      const lastChar = expression.slice(-1);
+
+      //Não permite dois operadores seguidos
+      if (!lastChar || "+-*/^(".includes(lastChar)) break;
+
+      setExpression(expression + key);
       break;
     }
 
@@ -163,6 +180,11 @@ export function handleKeyPress(
       break;
 
     default:
+      if (/\d/.test(key)) {
+        const lastChar = expression.slice(-1);
+        if (lastChar === ")") break;
+      }
+
       setExpression(expression + key);
       break;
   }
