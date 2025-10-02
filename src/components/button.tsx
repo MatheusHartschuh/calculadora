@@ -28,6 +28,7 @@ const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
 
     case "=":
     case "+/-":
+    case "π":
         background = theme.colors.blue;
         color = theme.colors.white;
         break;
@@ -41,6 +42,14 @@ const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
     case "(":
     case ")":
         background = theme.colors.numeric;
+        color = theme.colors.text;
+        break;
+
+    case "MC":
+    case "MR":
+    case "M+":
+    case "M-":
+        background = theme.colors.yellow;
         color = theme.colors.text;
         break;
 

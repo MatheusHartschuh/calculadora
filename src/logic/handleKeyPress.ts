@@ -106,6 +106,10 @@ export function handleKeyPress(
       }
       break;
 
+    case "π":
+      setExpression(expression + Math.PI.toFixed(2).toString());
+      break;
+
     default:
       setExpression(expression + key);
       break;
