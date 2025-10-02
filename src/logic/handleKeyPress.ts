@@ -1,6 +1,8 @@
 import { evaluateExpression } from "./calculate";
 import { applyToExpression } from "./helper";
 
+const MAX_LENGTH = 20;
+
 export function handleKeyPress(
   key: string,
   expression: string,
@@ -21,6 +23,12 @@ export function handleKeyPress(
     }
 
     setExpression("");
+    return;
+  }
+
+  const keysLimitedBySpace = /[\d.,π]/.test(key);
+
+  if (expression.length >= MAX_LENGTH && keysLimitedBySpace) {
     return;
   }
 
