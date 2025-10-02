@@ -7,3 +7,7 @@ export function formatDisplayValue(value: string): string {
     return decimalPart ? `${intWithSep},${decimalPart}` : intWithSep;
   });
 }
+
+export function formatExpression(expr: string): string {
+  return expr.replace(/([+\-*/^()])/g, " $1 ").replace(/\s+/g, " ").trim();
+}

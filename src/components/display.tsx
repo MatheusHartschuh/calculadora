@@ -1,6 +1,6 @@
 import React from "react";
 import { theme } from "../style/theme";
-import { formatDisplayValue } from "../logic/helper";
+import { formatDisplayValue, formatExpression } from "../logic/helper";
 
 interface DisplayProps {
   value: string;
@@ -21,7 +21,7 @@ const Display: React.FC<DisplayProps> = ({ value }) => {
         marginBottom: theme.spacing(1),
       }}
     >
-      {formatDisplayValue(value)}
+      {formatDisplayValue(formatExpression(value))}
     </div>
   );
 };

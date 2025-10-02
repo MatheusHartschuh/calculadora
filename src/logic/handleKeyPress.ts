@@ -6,7 +6,8 @@ export function handleKeyPress(
   expression: string,
   setExpression: (expr: string) => void,
   memory: number[],
-  setMemory: React.Dispatch<React.SetStateAction<number[]>>
+  setMemory: React.Dispatch<React.SetStateAction<number[]>>,
+  setHistory: React.Dispatch<React.SetStateAction<string[]>>,
 ) {
   switch (key) {
     case "AC": // All Clear
@@ -18,7 +19,17 @@ export function handleKeyPress(
       break;
 
     case "=":
-      setExpression(evaluateExpression(expression));
+      const result = evaluateExpression(expression);
+      setExpression(result);
+
+      const hasOperator = /[+\-*/^]/.test(expression);
+      if (result !== "Erro" && hasOperator) {
+        setHistory((prev) => {
+          const newHistory = [...prev, `${expression} = ${result}`];
+          if (newHistory.length > 10) newHistory.shift();
+          return newHistory;
+        });
+      }
       break;
 
     case "(":
@@ -41,13 +52,15 @@ export function handleKeyPress(
       if (match) {
         const num = parseFloat(match[0]);
         const squared = (num ** 2).toString();
-        setExpression(expression.slice(0, -match[0].length) + squared);
-      }
-      break;
-    }
+        const newExpr = expression.slice(0, -match[0].length) + squared;
+        setExpression(newExpr);
 
-    case "^": {
-      setExpression(expression + "^");
+        setHistory((prev) => {
+          const newHistory = [...prev, `${num}² = ${squared}`];
+          if (newHistory.length > 10) newHistory.shift();
+          return newHistory;
+        });
+      }
       break;
     }
 
@@ -56,8 +69,20 @@ export function handleKeyPress(
       if (match) {
         const num = parseFloat(match[0]);
         const sqrted = Math.sqrt(num).toString();
-        setExpression(expression.slice(0, -match[0].length) + sqrted);
+        const newExpr = expression.slice(0, -match[0].length) + sqrted;
+        setExpression(newExpr);
+
+        setHistory((prev) => {
+          const newHistory = [...prev, `√${num} = ${sqrted}`];
+          if (newHistory.length > 10) newHistory.shift();
+          return newHistory;
+        });
       }
+      break;
+    }
+
+    case "^": {
+      setExpression(expression + "^");
       break;
     }
 

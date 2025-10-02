@@ -4,14 +4,16 @@ import Keypad from "./components/keypad";
 import { handleKeyPress } from "./logic/handleKeyPress";
 import { theme } from "./style/theme";
 import MemoryPanel from "./components/memoryPanel";
+import HistoryPanel from "./components/historyPanel";
 
 
 function App() {
   const [expression, setExpression] = useState("");
   const [memory, setMemory] = useState<number[]>([]);
+  const [history, setHistory] = useState<string[]>([]);
 
   const onKeyPress = (key: string) =>
-    handleKeyPress(key, expression, setExpression, memory, setMemory);
+      handleKeyPress(key, expression, setExpression, memory, setMemory, setHistory);
 
   return (
     <div
@@ -23,6 +25,13 @@ function App() {
         backgroundColor: theme.colors.background,
       }}
     >
+      {/* Painel de histórico */}
+      <HistoryPanel
+        history={history}
+        onRecall={(expr) => setExpression(expr)}
+      />
+
+      {/* Calculadora */}
       <div
         style={{
           width: "360px",
@@ -32,13 +41,12 @@ function App() {
           boxShadow: theme.boxShadow,
         }}
       >
-        <h2 style={{ textAlign: "center", marginBottom: theme.spacing(2) }}>
-          Calculadora
-        </h2>
+        <h2 style={{ textAlign: "center", marginBottom: theme.spacing(2) }}>Calculadora</h2>
         <Display value={expression} />
         <Keypad onKeyPress={onKeyPress} />
       </div>
 
+      {/* Painel de memória */}
       <MemoryPanel
         memory={memory}
         setMemory={setMemory}
