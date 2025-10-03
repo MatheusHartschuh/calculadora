@@ -52,3 +52,17 @@ export function applyToExpression(
     setExpression("Erro");
   }
 }
+
+export function addToMemory(
+  setMemory: React.Dispatch<React.SetStateAction<number[]>>,
+  value: number,
+  maxLength: number = 10
+) {
+  setMemory((prev) => {
+    if (prev.includes(value)) return prev;
+
+    const newMemory = [...prev, value];
+    if (newMemory.length > maxLength) newMemory.shift(); // remove o mais antigo
+    return newMemory;
+  });
+}

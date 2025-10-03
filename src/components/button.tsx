@@ -35,14 +35,10 @@ const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
 
     case "C":
     case "AC":
-        background = theme.colors.orange;
-        color = theme.colors.white;
-        break;
-
     case "(":
     case ")":
-        background = theme.colors.numeric;
-        color = theme.colors.text;
+        background = theme.colors.orange;
+        color = theme.colors.white;
         break;
 
     case "MC":

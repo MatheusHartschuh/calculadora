@@ -1,5 +1,5 @@
 import { evaluateExpression } from "./calculate";
-import { applyToExpression } from "./helper";
+import { addToMemory, applyToExpression } from "./helper";
 
 const MAX_LENGTH = 20;
 
@@ -146,7 +146,7 @@ export function handleKeyPress(
       {
         const match = expression.match(/-?\d+(\.\d+)?$/);
         const current = match ? parseFloat(match[0]) : 0;
-        setMemory((prev) => [...prev, current]);
+        addToMemory(setMemory, current);
       }
       break;
 
@@ -154,7 +154,7 @@ export function handleKeyPress(
       {
         const match = expression.match(/-?\d+(\.\d+)?$/);
         const current = match ? parseFloat(match[0]) : 0;
-        setMemory((prev) => [...prev, -current]);
+        addToMemory(setMemory, -current);
       }
       break;
 
