@@ -1,9 +1,7 @@
-export function evaluateExpression(expr: string): string {
+export function evaluateExpression(expr: string, decimalPlaces: number = 6): string {
   try {
     let sanitized = expr.replace(/[^-()\d/*+.√^]/g, "");
-
     sanitized = sanitized.replace(/\^/g, "**");
-
     sanitized = sanitized.replace(/√(\d+\.?\d*)/g, "Math.sqrt($1)");
 
     const result = Function(`"use strict"; return (${sanitized})`)();
@@ -12,7 +10,7 @@ export function evaluateExpression(expr: string): string {
       return "Erro";
     }
 
-    return Number(result.toFixed(6)).toString();
+    return Number(result.toFixed(decimalPlaces)).toString();
   } catch (err) {
     return "Erro";
   }

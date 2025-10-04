@@ -10,7 +10,8 @@ export function handleKeyPress(
   setExpression: (expr: string) => void,
   memory: number[],
   setMemory: React.Dispatch<React.SetStateAction<number[]>>,
-  setHistory: React.Dispatch<React.SetStateAction<string[]>>
+  setHistory: React.Dispatch<React.SetStateAction<string[]>>,
+  decimalPlaces: number = 6,
 ) {
   const key = normalizeKey(rawKey);
   const keyType = getKeyType(key);
@@ -29,11 +30,11 @@ export function handleKeyPress(
       break;
 
     case "action":
-      handleActionKey(key, expression, setExpression, setHistory);
+      handleActionKey(key, expression, setExpression, setHistory, decimalPlaces);
       break;
 
     case "func":
-      handleFuncKey(key, expression, setExpression, setHistory);
+      handleFuncKey(key, expression, setExpression, setHistory, decimalPlaces);
       break;
 
     case "memory":

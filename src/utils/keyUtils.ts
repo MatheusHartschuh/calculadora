@@ -95,16 +95,17 @@ export function appendCloseParenthesis(expression: string): string {
   return expression;
 }
 
-export function appendPi(expression: string): string {
+export function appendPi(expression: string, decimalPlaces: number = 6): string {
   const lastChar = expression.slice(-1);
   const operators = "+-*/^(";
+  const pi = Math.PI.toFixed(decimalPlaces);
 
   if (!expression || operators.includes(lastChar)) {
-    return expression + Math.PI.toFixed(6);
+    return expression + pi;
   }
 
   if (expression === "0") {
-    return Math.PI.toFixed(6);
+    return pi;
   }
 
   return expression;

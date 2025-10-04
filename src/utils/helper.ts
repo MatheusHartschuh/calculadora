@@ -14,16 +14,17 @@ export function formatExpression(expr: string): string {
 
 export function applyToExpression(
   expression: string,
-  evaluateExpression: (expr: string) => string,
+  evaluateExpression: (expr: string, decimals?: number) => string,
   setExpression: (expr: string) => void,
   setHistory: React.Dispatch<React.SetStateAction<string[]>>,
   operation: (n: number) => number,
   historyFormatter: (expr: string, result: string) => string,
-  recordHistory: boolean = true
+  recordHistory: boolean = true,
+  decimalPlaces: number = 6,
 ) {
   const safeExpr = expression.trim() === "" ? "0" : expression;
 
-  const value = evaluateExpression(safeExpr);
+  const value = evaluateExpression(safeExpr, decimalPlaces);
   if (value === "Erro") {
     setExpression("Erro");
     return;

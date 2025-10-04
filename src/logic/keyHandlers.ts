@@ -30,7 +30,8 @@ export function handleActionKey(
   key: string,
   expression: string,
   setExpression: (expr: string) => void,
-  setHistory: React.Dispatch<React.SetStateAction<string[]>>
+  setHistory: React.Dispatch<React.SetStateAction<string[]>>,
+  decimalPlaces: number = 6,
 ) {
   switch (key) {
     case "AC":
@@ -42,7 +43,7 @@ export function handleActionKey(
       break;
 
     case "=":
-      evaluateAndSave(expression, setExpression, setHistory);
+      evaluateAndSave(expression, setExpression, setHistory, decimalPlaces);
       break;
 
     case "(":
@@ -61,7 +62,8 @@ export function handleActionKey(
         setHistory,
         (n) => -n,
         (expr, res) => `±(${expr}) = ${res}`,
-        false
+        false,
+        decimalPlaces,
       );
       break;
   }
@@ -109,7 +111,8 @@ export function handleFuncKey(
   key: string,
   expression: string,
   setExpression: (expr: string) => void,
-  setHistory: React.Dispatch<React.SetStateAction<string[]>>
+  setHistory: React.Dispatch<React.SetStateAction<string[]>>,
+  decimalPlaces: number = 6,
 ) {
   const lastChar = expression.slice(-1);
   if (expression !== "" && !/[\d)]/.test(lastChar)) return;
@@ -126,7 +129,9 @@ export function handleFuncKey(
       setExpression,
       setHistory,
       func.operation,
-      func.historyFormatter
+      func.historyFormatter,
+      true,
+      decimalPlaces,
     );
   }
 }
@@ -164,9 +169,10 @@ export function handleMemoryKey(
 function evaluateAndSave(
   expression: string,
   setExpression: (expr: string) => void,
-  setHistory: React.Dispatch<React.SetStateAction<string[]>>
+  setHistory: React.Dispatch<React.SetStateAction<string[]>>,
+  decimalPlaces: number = 6,
 ) {
-  const result = evaluateExpression(expression);
+  const result = evaluateExpression(expression, decimalPlaces);
   setExpression(result);
 
   const hasOperator = /[+\-*/^]/.test(expression);

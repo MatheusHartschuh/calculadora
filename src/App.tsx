@@ -6,15 +6,18 @@ import { handleKeyPress } from "./logic/handleKeyPress";
 import { theme } from "./style/theme";
 import MemoryPanel from "./components/memoryPanel";
 import HistoryPanel from "./components/historyPanel";
+import SettingsModal from "./components/settingsModal";
 
 function App() {
   const [expression, setExpression] = useState("");
   const [memory, setMemory] = useState<number[]>([]);
   const [history, setHistory] = useState<string[]>([]);
   const [showFuncModal, setShowFuncModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [decimalPlaces, setDecimalPlaces] = useState(6);
 
   const onKeyPress = (key: string) =>
-    handleKeyPress(key, expression, setExpression, memory, setMemory, setHistory);
+    handleKeyPress(key, expression, setExpression, memory, setMemory, setHistory, decimalPlaces);
 
   return (
     <div
@@ -41,9 +44,29 @@ function App() {
           borderRadius: theme.borderRadius,
           backgroundColor: theme.colors.white,
           boxShadow: theme.boxShadow,
+          position: "relative",
         }}
       >
         <h2 style={{ textAlign: "center", marginBottom: theme.spacing(2) }}>Calculadora</h2>
+
+        {/* Botão de Configurações */}
+        <button
+          onClick={() => setShowSettingsModal(true)}
+          style={{
+            position: "absolute",
+            top: theme.spacing(2),
+            right: theme.spacing(2),
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            fontSize: theme.font.size.small,
+            color: theme.colors.text,
+          }}
+          aria-label="open-settings"
+        >
+          Configurações
+        </button>
+
         <Display value={expression} onKeyPress={onKeyPress} />
         <Keypad
           onButtonClick={(key) => {
@@ -69,6 +92,14 @@ function App() {
         <FuncModal
           onSelect={onKeyPress}
           onClose={() => setShowFuncModal(false)}
+        />
+      )}
+
+      {showSettingsModal && (
+        <SettingsModal
+          onClose={() => setShowSettingsModal(false)}
+          decimals={decimalPlaces}
+          setDecimals={setDecimalPlaces}
         />
       )}
     </div>
