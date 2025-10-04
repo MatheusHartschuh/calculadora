@@ -121,7 +121,7 @@ export function handleFuncKey(
   if (!func) return;
 
   if (key === "π") {
-    setExpression(appendPi(expression));
+    setExpression(appendPi(expression, decimalPlaces));
   } else {
     applyToExpression(
       expression,
