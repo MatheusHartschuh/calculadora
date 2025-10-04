@@ -43,7 +43,7 @@ function App() {
       >
         <h2 style={{ textAlign: "center", marginBottom: theme.spacing(2) }}>Calculadora</h2>
         <Display value={expression} />
-        <Keypad onKeyPress={onKeyPress} />
+        <Keypad onButtonClick={onKeyPress} />
       </div>
 
       {/* Painel de memória */}

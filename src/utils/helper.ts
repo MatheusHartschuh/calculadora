@@ -17,40 +17,43 @@ export function applyToExpression(
   evaluateExpression: (expr: string) => string,
   setExpression: (expr: string) => void,
   setHistory: React.Dispatch<React.SetStateAction<string[]>>,
-  operation: (num: number) => number,
-  formatLabel: (expr: string, result: number) => string,
+  operation: (n: number) => number,
+  historyFormatter: (expr: string, result: string) => string,
   recordHistory: boolean = true
 ) {
-  let validExpr = expression.replace(/[\+\-\*\/\^]$/, "");
-  if (!validExpr) return;
-
-  try {
-    const num = parseFloat(evaluateExpression(validExpr));
-
-    if (isNaN(num) || !isFinite(num)) {
-      setExpression("Erro");
-      return;
-    }
-
-    const result = operation(num);
-
-    if (isNaN(result) || !isFinite(result)) {
-      setExpression("Erro");
-      return;
-    }
-
-    setExpression(result.toString());
-
-    if (recordHistory) {
-      setHistory((prev) => {
-        const newHistory = [...prev, formatLabel(validExpr, result)];
-        if (newHistory.length > 10) newHistory.shift();
-        return newHistory;
-      });
-    }
-  } catch {
+  const value = evaluateExpression(expression);
+  if (value === "Erro") {
     setExpression("Erro");
+    return;
   }
+
+  const num = parseFloat(value);
+  if (isNaN(num)) {
+    setExpression("Erro");
+    return;
+  }
+
+  const result = cleanResult(operation(num));
+
+  setExpression(result);
+
+  if (recordHistory) {
+    setHistory((prev) => {
+      const newEntry = historyFormatter(expression, result);
+      if (prev.length >= 10) return [...prev.slice(1), newEntry];
+      return [...prev, newEntry];
+    });
+  }
+}
+
+function cleanResult(value: number): string {
+  if (!isFinite(value)) return "Erro";
+
+  const rounded = parseFloat(value.toFixed(10));
+
+  return Number.isInteger(rounded)
+    ? rounded.toString()
+    : parseFloat(rounded.toString()).toString();
 }
 
 export function addToMemory(
@@ -62,7 +65,7 @@ export function addToMemory(
     if (prev.includes(value)) return prev;
 
     const newMemory = [...prev, value];
-    if (newMemory.length > maxLength) newMemory.shift(); // remove o mais antigo
+    if (newMemory.length > maxLength) newMemory.shift(); //Remove o mais antigo
     return newMemory;
   });
 }
