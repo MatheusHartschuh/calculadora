@@ -92,7 +92,8 @@ export function handleFuncKey(
         setExpression,
         setHistory,
         (n) => (n < 0 ? NaN : Math.sqrt(n)),
-        (expr, res) => `√(${expr}) = ${res}`
+        (expr, res) => `√(${expr}) = ${res}`,
+        false
       );
       break;
 
@@ -141,7 +142,8 @@ function evaluateAndSave(
   setExpression(result);
 
   const hasOperator = /[+\-*/^]/.test(expression);
-  if (result !== "Erro" && hasOperator) {
+
+  if (result !== "Erro" && hasOperator && !isNaN(Number(result)) && isFinite(Number(result))) {
     setHistory((prev) => {
       const newEntry = `${expression} = ${result}`;
       return prev.length >= 10

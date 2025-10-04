@@ -46,14 +46,23 @@ export function getLastNumberInfo(expression: string) {
 }
 
 export function appendNumber(expression: string, rawKey: string): string {
-  const key = normalizeKey(rawKey); // e.g. '7' or ','
+  const key = normalizeKey(rawKey);
   const match = expression.match(/(-?\d+(\.\d*)?)$/);
 
   if (!match) {
     return key === "," ? expression + "0." : expression + key;
   }
 
-  const lastNumber = match[0];
+  let lastNumber = match[0];
+
+  if (lastNumber === "0" && key === "0") {
+    return expression;
+  }
+
+  if (lastNumber === "0" && key !== "," && key !== "0") {
+    return expression.slice(0, -1) + key;
+  }
+
   if (key === "," && lastNumber.includes(".")) return expression;
 
   return expression + (key === "," ? "." : key);
