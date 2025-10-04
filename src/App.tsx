@@ -42,7 +42,7 @@ function App() {
         }}
       >
         <h2 style={{ textAlign: "center", marginBottom: theme.spacing(2) }}>Calculadora</h2>
-        <Display value={expression} />
+        <Display value={expression} onKeyPress={onKeyPress} />
         <Keypad onButtonClick={onKeyPress} />
       </div>
 

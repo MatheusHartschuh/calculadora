@@ -1,4 +1,3 @@
-// Button.tsx
 import React from "react";
 import { theme } from "../style/theme";
 

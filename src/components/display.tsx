@@ -4,6 +4,7 @@ import { formatDisplayValue, formatExpression } from "../utils/helper";
 
 interface DisplayProps {
   value: string;
+  onKeyPress: (key: string) => void;
 }
 
 const styles: React.CSSProperties = {
@@ -16,13 +17,26 @@ const styles: React.CSSProperties = {
   boxShadow: theme.boxShadow,
   minHeight: "2rem",
   marginBottom: theme.spacing(1),
-  wordWrap: "break-word",
+  width: "90%",
 };
 
-const Display: React.FC<DisplayProps> = ({ value }) => {
+const Display: React.FC<DisplayProps> = ({ value, onKeyPress }) => {
   const formatted = formatDisplayValue(formatExpression(value));
 
-  return <div style={styles}>{formatted}</div>;
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    onKeyPress(e.key);
+  };
+
+  return (
+    <input
+      type="text"
+      value={formatted}
+      style={styles}
+      onKeyDown={handleKeyDown}
+      readOnly={false}
+    />
+  );
 };
 
 export default Display;
