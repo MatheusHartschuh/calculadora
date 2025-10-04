@@ -113,19 +113,25 @@ export function appendPi(expression: string, decimalPlaces: number = 6): string 
 
 
 export function roundUpOneDecimal(value: number): number {
+  if (!isFinite(value)) return value;
+
   const strValue = value.toString();
-  const decimalPart = strValue.split('.')[1];
-  
-  if (!decimalPart) {
-    return value;
+
+  const [intPart, decimalPart] = strValue.split(".");
+  if (!decimalPart) return value;
+
+  const decimals = decimalPart.split("").map(Number);
+
+  let lastDigit = decimals.pop()!;
+  if (lastDigit >= 5) {
+    if (decimals.length === 0) {
+      return Math.round(value);
+    } else {
+      decimals[decimals.length - 1] += 1;
+    }
   }
 
-  const decimalPlaces = decimalPart.length;
-  
-  if (Math.abs(value) < Math.pow(10, -decimalPlaces)) {
-    return 0;
-  }
-
-  const targetDecimals = Math.max(0, decimalPlaces - 1);
-  return Number(value.toFixed(targetDecimals));
+  const newDecimalPart = decimals.join("");
+  const newValue = parseFloat(`${intPart}.${newDecimalPart}`);
+  return newValue;
 }
