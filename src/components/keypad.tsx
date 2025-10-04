@@ -46,7 +46,7 @@ const keypadLayout: { label: string; type?: ButtonType }[][] = [
   [
     { label: "0", type: "number" },
     { label: ",", type: "number" },
-    { label: "", type: "operator" },
+    { label: "≅", type: "func" },
     { label: "/", type: "operator" },
     { label: "=", type: "action" },
   ],

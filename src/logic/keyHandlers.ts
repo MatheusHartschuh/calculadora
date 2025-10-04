@@ -1,6 +1,6 @@
 import { evaluateExpression } from "./calculate";
 import { addToMemory, applyToExpression } from "../utils/helper";
-import { appendCloseParenthesis, appendPi } from "../utils/keyUtils";
+import { appendCloseParenthesis, appendPi, roundUpOneDecimal } from "../utils/keyUtils";
 
 //Estado de erro
 export function handleErrorState(
@@ -100,6 +100,18 @@ export function handleFuncKey(
     case "π":
       setExpression(appendPi(expression));
       break;
+
+    case "≅":
+      applyToExpression(
+        expression,
+        evaluateExpression,
+        setExpression,
+        setHistory,
+        (n) => roundUpOneDecimal(n),
+        (expr, res) => `≅(${expr}) = ${res}`
+      );
+      break;
+
   }
 }
 

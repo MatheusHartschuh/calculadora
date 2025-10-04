@@ -39,6 +39,7 @@ const LABEL_STYLES: Record<string, { background: string; color: string }> = {
   "M-": { background: theme.colors.yellow, color: theme.colors.text },
 
   ",": { background: theme.colors.numeric, color: theme.colors.text },
+  "≅": { background: theme.colors.numeric, color: theme.colors.text },
   "": { background: theme.colors.numeric, color: theme.colors.text },
 };
 

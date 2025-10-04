@@ -31,7 +31,7 @@ export function getKeyType(rawKey: string): KeyType | undefined {
   const memoryKeys = new Set(["MC", "MR", "M+", "M-"]);
   if (memoryKeys.has(key)) return "memory";
 
-  const funcKeys = new Set(["x²", "√", "π"]);
+  const funcKeys = new Set(["x²", "√", "π", "≅"]);
   if (funcKeys.has(key)) return "func";
 
   return undefined;
@@ -96,4 +96,22 @@ export function appendPi(expression: string): string {
     return expression + Math.PI.toFixed(6);
   }
   return expression;
+}
+
+export function roundUpOneDecimal(value: number): number {
+  const strValue = value.toString();
+  const decimalPart = strValue.split('.')[1];
+  
+  if (!decimalPart) {
+    return value;
+  }
+
+  const decimalPlaces = decimalPart.length;
+  
+  if (Math.abs(value) < Math.pow(10, -decimalPlaces)) {
+    return 0;
+  }
+
+  const targetDecimals = Math.max(0, decimalPlaces - 1);
+  return Number(value.toFixed(targetDecimals));
 }
