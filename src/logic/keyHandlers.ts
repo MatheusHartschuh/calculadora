@@ -112,7 +112,7 @@ export function handleFuncKey(
   setHistory: React.Dispatch<React.SetStateAction<string[]>>
 ) {
   const lastChar = expression.slice(-1);
-  if (!/[\d)]/.test(lastChar)) return;
+  if (expression !== "" && !/[\d)]/.test(lastChar)) return;
 
   const func = FUNC_KEYS[key];
   if (!func) return;

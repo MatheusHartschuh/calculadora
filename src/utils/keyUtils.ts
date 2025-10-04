@@ -88,7 +88,7 @@ export function appendCloseParenthesis(expression: string): string {
   const openCount = (expression.match(/\(/g) || []).length;
   const closeCount = (expression.match(/\)/g) || []).length;
   const lastChar = expression.slice(-1);
-  
+
   if (openCount > closeCount && /[\d)]/.test(lastChar)) {
     return expression + ")";
   }
@@ -98,11 +98,18 @@ export function appendCloseParenthesis(expression: string): string {
 export function appendPi(expression: string): string {
   const lastChar = expression.slice(-1);
   const operators = "+-*/^(";
+
   if (!expression || operators.includes(lastChar)) {
     return expression + Math.PI.toFixed(6);
   }
+
+  if (expression === "0") {
+    return Math.PI.toFixed(6);
+  }
+
   return expression;
 }
+
 
 export function roundUpOneDecimal(value: number): number {
   const strValue = value.toString();

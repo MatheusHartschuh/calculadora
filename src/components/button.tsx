@@ -32,14 +32,12 @@ const LABEL_STYLES: Record<string, { background: string; color: string }> = {
   "(": { background: theme.colors.orange, color: theme.colors.white },
   ")": { background: theme.colors.orange, color: theme.colors.white },
 
-  "MC": { background: theme.colors.yellow, color: theme.colors.text },
-  "MR": { background: theme.colors.yellow, color: theme.colors.text },
-  "M+": { background: theme.colors.yellow, color: theme.colors.text },
-  "M-": { background: theme.colors.yellow, color: theme.colors.text },
-
   ",": { background: theme.colors.numeric, color: theme.colors.text },
   "≅": { background: theme.colors.numeric, color: theme.colors.text },
   "": { background: theme.colors.numeric, color: theme.colors.text },
+
+  "Trig": { background: theme.colors.purple, color: theme.colors.white },
+  "Fechar": { background: theme.colors.red, color: theme.colors.white },
 };
 
 const TYPE_STYLES: Record<ButtonType, { background: string; color: string }> = {
