@@ -1,5 +1,6 @@
 import React from "react";
 import { theme } from "../style/theme";
+import { getTooltipForKey } from "../utils/tooltipText";
 
 type ButtonType = "number" | "operator" | "action" | "memory" | "func";
 
@@ -76,12 +77,15 @@ const Button: React.FC<ButtonProps> = ({ label, onClick, type, className, disabl
     onClick(label);
   };
 
+  const tooltip = getTooltipForKey(label);
+
   return (
     <button
       type="button"
       className={className}
       onClick={handleClick}
       style={baseStyle}
+      title={tooltip}
       onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = "0.85")}
       onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = "1")}
       aria-label={`calc-button-${label || "empty"}`}
