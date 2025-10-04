@@ -1,6 +1,7 @@
 import { evaluateExpression } from "./calculate";
 import { addToMemory, applyToExpression } from "../utils/helper";
 import { appendCloseParenthesis, appendPi, roundUpOneDecimal } from "../utils/keyUtils";
+import React from "react";
 
 //Estado de erro
 export function handleErrorState(
@@ -66,6 +67,43 @@ export function handleActionKey(
   }
 }
 
+//Mapa unificado de funções
+export type FuncDefinition = {
+  operation: (n: number) => number;
+  historyFormatter: (expr: string, res: string) => string;
+};
+
+export const FUNC_KEYS: Record<string, FuncDefinition> = {
+  "x²": {
+    operation: (n) => n ** 2,
+    historyFormatter: (expr, res) => `(${expr})² = ${res}`,
+  },
+  "√": {
+    operation: (n) => (n < 0 ? NaN : Math.sqrt(n)),
+    historyFormatter: (expr, res) => `√(${expr}) = ${res}`,
+  },
+  "π": {
+    operation: () => Math.PI,
+    historyFormatter: (expr, res) => `${expr}π = ${res}`,
+  },
+  "≅": {
+    operation: (n) => roundUpOneDecimal(n),
+    historyFormatter: (expr, res) => `≅(${expr}) = ${res}`,
+  },
+  "cos": {
+    operation: (n) => Math.cos(n),
+    historyFormatter: (expr, res) => `cos(${expr}) = ${res}`,
+  },
+  "sin": {
+    operation: (n) => Math.sin(n),
+    historyFormatter: (expr, res) => `sin(${expr}) = ${res}`,
+  },
+  "tan": {
+    operation: (n) => Math.tan(n),
+    historyFormatter: (expr, res) => `tan(${expr}) = ${res}`,
+  },
+};
+
 //Funções matemáticas
 export function handleFuncKey(
   key: string,
@@ -73,44 +111,23 @@ export function handleFuncKey(
   setExpression: (expr: string) => void,
   setHistory: React.Dispatch<React.SetStateAction<string[]>>
 ) {
-  switch (key) {
-    case "x²":
-      applyToExpression(
-        expression,
-        evaluateExpression,
-        setExpression,
-        setHistory,
-        (n) => n ** 2,
-        (expr, res) => `(${expr})² = ${res}`
-      );
-      break;
+  const lastChar = expression.slice(-1);
+  if (!/[\d)]/.test(lastChar)) return;
 
-    case "√":
-      applyToExpression(
-        expression,
-        evaluateExpression,
-        setExpression,
-        setHistory,
-        (n) => (n < 0 ? NaN : Math.sqrt(n)),
-        (expr, res) => `√(${expr}) = ${res}`,
-      );
-      break;
+  const func = FUNC_KEYS[key];
+  if (!func) return;
 
-    case "π":
-      setExpression(appendPi(expression));
-      break;
-
-    case "≅":
-      applyToExpression(
-        expression,
-        evaluateExpression,
-        setExpression,
-        setHistory,
-        (n) => roundUpOneDecimal(n),
-        (expr, res) => `≅(${expr}) = ${res}`
-      );
-      break;
-
+  if (key === "π") {
+    setExpression(appendPi(expression));
+  } else {
+    applyToExpression(
+      expression,
+      evaluateExpression,
+      setExpression,
+      setHistory,
+      func.operation,
+      func.historyFormatter
+    );
   }
 }
 

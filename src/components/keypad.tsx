@@ -13,7 +13,7 @@ const keypadLayout: { label: string; type?: ButtonType }[][] = [
     { label: "MR", type: "memory" },
     { label: "M+", type: "memory" },
     { label: "M-", type: "memory" },
-    { label: "π", type: "func" },
+    { label: "Trig", type: "func" },
   ],
   [
     { label: "(", type: "action" },

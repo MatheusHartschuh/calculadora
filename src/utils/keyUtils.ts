@@ -1,5 +1,7 @@
 export type KeyType = "number" | "operator" | "action" | "memory" | "func";
 
+import { FUNC_KEYS } from "../logic/keyHandlers";
+
 export function normalizeKey(raw: string): string {
   const k = (raw ?? "").toString().trim();
   if (!k) return k;
@@ -31,7 +33,7 @@ export function getKeyType(rawKey: string): KeyType | undefined {
   const memoryKeys = new Set(["MC", "MR", "M+", "M-"]);
   if (memoryKeys.has(key)) return "memory";
 
-  const funcKeys = new Set(["x²", "√", "π", "≅"]);
+  const funcKeys = new Set(Object.keys(FUNC_KEYS));
   if (funcKeys.has(key)) return "func";
 
   return undefined;
@@ -85,7 +87,11 @@ export function appendOperator(expression: string, rawKey: string): string {
 export function appendCloseParenthesis(expression: string): string {
   const openCount = (expression.match(/\(/g) || []).length;
   const closeCount = (expression.match(/\)/g) || []).length;
-  if (openCount > closeCount) return expression + ")";
+  const lastChar = expression.slice(-1);
+  
+  if (openCount > closeCount && /[\d)]/.test(lastChar)) {
+    return expression + ")";
+  }
   return expression;
 }
 
