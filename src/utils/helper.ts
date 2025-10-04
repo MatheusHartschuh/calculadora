@@ -21,7 +21,9 @@ export function applyToExpression(
   historyFormatter: (expr: string, result: string) => string,
   recordHistory: boolean = true
 ) {
-  const value = evaluateExpression(expression);
+  const safeExpr = expression.trim() === "" ? "0" : expression;
+
+  const value = evaluateExpression(safeExpr);
   if (value === "Erro") {
     setExpression("Erro");
     return;
@@ -39,7 +41,7 @@ export function applyToExpression(
 
   if (recordHistory) {
     setHistory((prev) => {
-      const newEntry = historyFormatter(expression, result);
+      const newEntry = historyFormatter(safeExpr, result);
       if (prev.length >= 10) return [...prev.slice(1), newEntry];
       return [...prev, newEntry];
     });

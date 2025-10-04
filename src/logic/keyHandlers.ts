@@ -93,7 +93,6 @@ export function handleFuncKey(
         setHistory,
         (n) => (n < 0 ? NaN : Math.sqrt(n)),
         (expr, res) => `√(${expr}) = ${res}`,
-        false
       );
       break;
 
