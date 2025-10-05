@@ -1,5 +1,5 @@
 export function formatDisplayValue(value: string): string {
-  if (!value) return "0";
+  if (value == null || value === "") return "0";
 
   if (value.includes("e")) return value; //Para valores exponenciais
 
@@ -38,7 +38,7 @@ export function applyToExpression(
     return;
   }
 
-  const result = cleanResult(operation(num));
+  const result = cleanResult(operation(num), decimalPlaces);
 
   setExpression(result);
 
@@ -51,10 +51,10 @@ export function applyToExpression(
   }
 }
 
-function cleanResult(value: number): string {
+function cleanResult(value: number, decimalPlaces: number = 6): string {
   if (!isFinite(value)) return "Erro";
 
-  const rounded = parseFloat(value.toFixed(10));
+  const rounded = parseFloat(value.toFixed(decimalPlaces));
 
   return Number.isInteger(rounded)
     ? rounded.toString()
@@ -64,13 +64,14 @@ function cleanResult(value: number): string {
 export function addToMemory(
   setMemory: React.Dispatch<React.SetStateAction<number[]>>,
   value: number,
-  maxLength: number = 10
+  maxLength: number = 10,
+  decimalPlaces: number = 6,
 ) {
+  const normalized = Number(value.toFixed(decimalPlaces));
   setMemory((prev) => {
-    if (prev.includes(value)) return prev;
-
-    const newMemory = [...prev, value];
-    if (newMemory.length > maxLength) newMemory.shift(); //Remove o mais antigo
+    if (prev.some(v => Math.abs(v - normalized) < 1e-10)) return prev;
+    const newMemory = [...prev, normalized];
+    if (newMemory.length > maxLength) newMemory.shift();
     return newMemory;
   });
 }

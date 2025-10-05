@@ -33,7 +33,6 @@ function App() {
       {/* Painel de histórico */}
       <HistoryPanel
         history={history}
-        onRecall={(expr) => setExpression(expr)}
       />
 
       {/* Calculadora */}

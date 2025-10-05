@@ -34,7 +34,8 @@ const Display: React.FC<DisplayProps> = ({ value, onKeyPress }) => {
       value={formatted}
       style={styles}
       onKeyDown={handleKeyDown}
-      readOnly={false}
+      readOnly={true}
+      aria-label="calculator-display"
     />
   );
 };

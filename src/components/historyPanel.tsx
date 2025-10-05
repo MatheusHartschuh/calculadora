@@ -4,7 +4,6 @@ import { formatExpression } from "../utils/helper";
 
 interface HistoryPanelProps {
   history: string[];
-  onRecall: (val: string) => void;
 }
 
 const panelStyles: React.CSSProperties = {

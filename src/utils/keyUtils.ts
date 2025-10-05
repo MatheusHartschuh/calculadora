@@ -49,25 +49,27 @@ export function getLastNumberInfo(expression: string) {
 
 export function appendNumber(expression: string, rawKey: string): string {
   const key = normalizeKey(rawKey);
-  const match = expression.match(/(-?\d+(\.\d*)?)$/);
+  const decimalKey = key === "," ? "." : key;
 
+  const match = expression.match(/(-?\d+(\.\d*)?)$/);
   if (!match) {
-    return key === "," ? expression + "0." : expression + key;
+    return decimalKey === "." ? expression + "0." : expression + decimalKey;
   }
 
   let lastNumber = match[0];
 
-  if (lastNumber === "0" && key === "0") {
-    return expression;
+  //Impedir múltiplos zeros
+  if (lastNumber === "0" && decimalKey === "0") return expression;
+
+  //Impedir zeros a esquerda
+  if (lastNumber === "0" && decimalKey !== "." && decimalKey !== "0") {
+    return expression.slice(0, -1) + decimalKey;
   }
 
-  if (lastNumber === "0" && key !== "," && key !== "0") {
-    return expression.slice(0, -1) + key;
-  }
+  //Impedir segundo ponto decimal
+  if (decimalKey === "." && lastNumber.includes(".")) return expression;
 
-  if (key === "," && lastNumber.includes(".")) return expression;
-
-  return expression + (key === "," ? "." : key);
+  return expression + decimalKey;
 }
 
 export function appendOperator(expression: string, rawKey: string): string {

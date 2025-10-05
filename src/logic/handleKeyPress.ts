@@ -38,7 +38,7 @@ export function handleKeyPress(
       break;
 
     case "memory":
-      handleMemoryKey(key, expression, memory, setExpression, setMemory);
+      handleMemoryKey(key, expression, memory, setExpression, setMemory, decimalPlaces);
       break;
 
     default:

@@ -142,7 +142,8 @@ export function handleMemoryKey(
   expression: string,
   memory: number[],
   setExpression: (expr: string) => void,
-  setMemory: React.Dispatch<React.SetStateAction<number[]>>
+  setMemory: React.Dispatch<React.SetStateAction<number[]>>,
+  decimalPlaces: number = 6,
 ) {
   switch (key) {
     case "MC":
@@ -153,7 +154,7 @@ export function handleMemoryKey(
     case "M-": {
       const match = expression.match(/-?\d+(\.\d+)?$/);
       const current = match ? parseFloat(match[0]) : 0;
-      addToMemory(setMemory, key === "M+" ? current : -current);
+      addToMemory(setMemory, key === "M+" ? current : -current, decimalPlaces);
       break;
     }
 
