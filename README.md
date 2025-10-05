@@ -31,8 +31,9 @@ Esta Calculadora foi desenvolvida em **React** com o uso de **Vite**, e terá se
 |----------------------|-----------|
 | `App.tsx` | Componente principal. Armazena estados globais (`expression`, `memory`, `history`, `decimalPlaces`) e controla modais. |
 | `calculate.ts` | Avalia expressões matemáticas com sanitização e arredondamento controlado. |
-| `helper.ts` | Funções auxiliares de formatação, memória e aplicação de resultados. |
-| `keyUtils.ts` | Normaliza teclas e trata inserção de números, operadores e funções. |
+| `helper.ts` | Funções auxiliares de formatação, memória e aplicação de resultados a expressões. |
+| `keyUtils.ts` | Normaliza teclas e trata inserção de números, operadores, parênteses e funções. |
+| `keyHandlers.ts` | Lógica principal das teclas (ação, função, memória e tratamento de erros). |
 | `components/Display/index.tsx` | Mostra o valor atual no display e trata a entrada pelo teclado. |
 | `components/HistoryPanel/index.tsx` | Exibe o histórico de operações. |
 | `components/MemoryPanel/index.tsx` | Mostra valores guardados na memória e permite apagá-los. |
