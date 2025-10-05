@@ -14,6 +14,11 @@ export function evaluateExpression(expr: string, decimalPlaces: number = 6): str
       return "Erro";
     }
 
+    // Checagem especial para 0^0
+    if (/0\s*\*\*\s*0/.test(input)) {
+      return "Erro";
+    }
+
     if (input.trim() === "") return "0";
 
     const result = Function(`"use strict"; return (${input})`)();
@@ -25,7 +30,7 @@ export function evaluateExpression(expr: string, decimalPlaces: number = 6): str
     //Formatação de número de casas decimais e zeros desnecessários
     const fixed = result.toFixed(decimalPlaces);
     const cleaned = fixed.replace(/\.?0+$/, "");
-  
+
     return cleaned;
   } catch (err) {
     return "Erro";

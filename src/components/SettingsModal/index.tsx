@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { theme } from "../style/theme";
+import { ModalContainer, ModalActions, Label, Input } from "./styles";
 
 interface SettingsModalProps {
   onClose: () => void;
@@ -11,45 +11,30 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ onClose, decimals, setDec
   const [tempValue, setTempValue] = useState(decimals);
 
   const handleSave = () => {
-    setDecimals(tempValue);
+    setDecimals(tempValue); //Atualiza casas decimais
     onClose();
   };
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        backgroundColor: theme.colors.white,
-        boxShadow: theme.boxShadow,
-        borderRadius: theme.borderRadius,
-        padding: theme.spacing(3),
-        zIndex: 200,
-      }}
-    >
+    <ModalContainer>
       <h3>Configurações</h3>
-      
-      <div style={{ margin: theme.spacing(2) }}>
-        <label>
+      <div>
+        <Label>
           Decimais padrão:
-          <input
+          <Input
             type="number"
             min={0}
             max={9}
             value={tempValue}
             onChange={(e) => setTempValue(Math.min(9, Math.max(0, Number(e.target.value))))}
-            style={{ marginLeft: "8px", width: "50px" }}
           />
-        </label>
+        </Label>
       </div>
-
-      <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px" }}>
+      <ModalActions>
         <button onClick={onClose}>Cancelar</button>
         <button onClick={handleSave}>Salvar</button>
-      </div>
-    </div>
+      </ModalActions>
+    </ModalContainer>
   );
 };
 

@@ -2,6 +2,7 @@ export type KeyType = "number" | "operator" | "action" | "memory" | "func";
 
 import { FUNC_KEYS } from "../logic/keyHandlers";
 
+//Normaliza entrada do teclado para uso interno da calculadora
 export function normalizeKey(raw: string): string {
   const k = (raw ?? "").toString().trim();
   if (!k) return k;
@@ -18,6 +19,7 @@ export function normalizeKey(raw: string): string {
   return k;
 }
 
+//Retorna tipo da tecla: number, operator, action, memory, func
 export function getKeyType(rawKey: string): KeyType | undefined {
   const key = normalizeKey(rawKey);
 
@@ -39,6 +41,7 @@ export function getKeyType(rawKey: string): KeyType | undefined {
   return undefined;
 }
 
+//Retorna último número na expressão e quantidade de dígitos
 export function getLastNumberInfo(expression: string) {
   const match = expression.match(/-?\d+(\.\d*)?$/);
   if (!match) return { raw: "", digits: 0 };
@@ -47,6 +50,7 @@ export function getLastNumberInfo(expression: string) {
   return { raw, digits };
 }
 
+//Adiciona número ou ponto à expressão
 export function appendNumber(expression: string, rawKey: string): string {
   const key = normalizeKey(rawKey);
   const decimalKey = key === "," ? "." : key;
@@ -72,6 +76,7 @@ export function appendNumber(expression: string, rawKey: string): string {
   return expression + decimalKey;
 }
 
+//Adiciona operador na expressão
 export function appendOperator(expression: string, rawKey: string): string {
   const key = normalizeKey(rawKey);
   const lastChar = expression.slice(-1);
@@ -86,6 +91,7 @@ export function appendOperator(expression: string, rawKey: string): string {
   return expression + key;
 }
 
+//Adiciona ")" apenas se houver "(" correspondente
 export function appendCloseParenthesis(expression: string): string {
   const openCount = (expression.match(/\(/g) || []).length;
   const closeCount = (expression.match(/\)/g) || []).length;
@@ -97,6 +103,7 @@ export function appendCloseParenthesis(expression: string): string {
   return expression;
 }
 
+//Insere valor de π na expressão considerando operadores e valores decimais
 export function appendPi(expression: string, decimalPlaces: number = 6): string {
   const lastChar = expression.slice(-1);
   const operators = "+-*/^(";
@@ -113,7 +120,7 @@ export function appendPi(expression: string, decimalPlaces: number = 6): string 
   return expression;
 }
 
-
+//Remoção da última casa decimal
 export function roundUpOneDecimal(value: number): number {
   if (!isFinite(value)) return value;
 

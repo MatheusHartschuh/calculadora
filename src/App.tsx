@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import Display from "./components/display";
-import Keypad from "./components/keypad";
-import FuncModal from "./components/funcModal";
+import Display from "./components/Display";
+import Keypad from "./components/Keypad";
+import TrigModal from "./components/TrigModal";
 import { handleKeyPress } from "./logic/handleKeyPress";
 import { theme } from "./style/theme";
-import MemoryPanel from "./components/memoryPanel";
-import HistoryPanel from "./components/historyPanel";
-import SettingsModal from "./components/settingsModal";
+import MemoryPanel from "./components/MemoryPanel";
+import HistoryPanel from "./components/HistoryPanel";
+import SettingsModal from "./components/SettingsModal";
 
 function App() {
   const [expression, setExpression] = useState("");
   const [memory, setMemory] = useState<number[]>([]);
   const [history, setHistory] = useState<string[]>([]);
-  const [showFuncModal, setShowFuncModal] = useState(false);
+  const [showTrigModal, setShowTrigModal] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [decimalPlaces, setDecimalPlaces] = useState(6);
 
@@ -70,10 +70,10 @@ function App() {
         <Keypad
           onButtonClick={(key) => {
             if (key === "Trig") {
-              setShowFuncModal((prev) => !prev);
+              setShowTrigModal((prev) => !prev);
             } else {
               onKeyPress(key);
-              setShowFuncModal(false);
+              setShowTrigModal(false);
             }
           }}
         />
@@ -87,13 +87,15 @@ function App() {
         onRecall={(val) => setExpression(expression + val.toString())}
       />
 
-      {showFuncModal && (
-        <FuncModal
+      {/* Modal com funções trigonométricas */}
+      {showTrigModal && (
+        <TrigModal
           onSelect={onKeyPress}
-          onClose={() => setShowFuncModal(false)}
+          onClose={() => setShowTrigModal(false)}
         />
       )}
 
+      {/* Modal de configurações */}
       {showSettingsModal && (
         <SettingsModal
           onClose={() => setShowSettingsModal(false)}

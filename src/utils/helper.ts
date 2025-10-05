@@ -1,3 +1,4 @@
+//Formata números para display (milhares com '.', decimais com ',')
 export function formatDisplayValue(value: string): string {
   if (value == null || value === "") return "0";
 
@@ -10,10 +11,12 @@ export function formatDisplayValue(value: string): string {
   });
 }
 
+//Formata expressão adicionando espaços entre operadores
 export function formatExpression(expr: string): string {
   return expr.replace(/([+\-*/^()])/g, " $1 ").replace(/\s+/g, " ").trim();
 }
 
+//Aplica a funções a expressão
 export function applyToExpression(
   expression: string,
   evaluateExpression: (expr: string, decimals?: number) => string,
@@ -42,7 +45,8 @@ export function applyToExpression(
 
   setExpression(result);
 
-  if (recordHistory) {
+  //Só adiciona ao histórico se o resultado for válido
+  if (recordHistory && result !== "Erro") {
     setHistory((prev) => {
       const newEntry = historyFormatter(safeExpr, result);
       if (prev.length >= 10) return [...prev.slice(1), newEntry];
@@ -51,6 +55,7 @@ export function applyToExpression(
   }
 }
 
+//Limpa e arredonda resultado numérico
 function cleanResult(value: number, decimalPlaces: number = 6): string {
   if (!isFinite(value)) return "Erro";
 
@@ -61,6 +66,7 @@ function cleanResult(value: number, decimalPlaces: number = 6): string {
     : parseFloat(rounded.toString()).toString();
 }
 
+//Adiciona valor à memória (sem duplicatas)
 export function addToMemory(
   setMemory: React.Dispatch<React.SetStateAction<number[]>>,
   value: number,

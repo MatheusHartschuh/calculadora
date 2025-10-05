@@ -1,5 +1,6 @@
 import React from "react";
-import Button from "./button";
+import Button from "../Button";
+import { KeypadContainer } from "./styles";
 
 type ButtonType = "operator" | "action" | "number" | "memory" | "func";
 
@@ -7,6 +8,7 @@ type KeypadProps = {
   onButtonClick: (key: string) => void;
 };
 
+// Layout do teclado (matriz)
 const keypadLayout: { label: string; type?: ButtonType }[][] = [
   [
     { label: "MC", type: "memory" },
@@ -54,14 +56,7 @@ const keypadLayout: { label: string; type?: ButtonType }[][] = [
 
 const Keypad: React.FC<KeypadProps> = ({ onButtonClick }) => {
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(5, 1fr)",
-        gap: "8px",
-        marginTop: "12px",
-      }}
-    >
+    <KeypadContainer>
       {keypadLayout.flat().map((btn) => (
         <Button
           key={btn.label}
@@ -70,7 +65,7 @@ const Keypad: React.FC<KeypadProps> = ({ onButtonClick }) => {
           type={btn.type}
         />
       ))}
-    </div>
+    </KeypadContainer>
   );
 };
 

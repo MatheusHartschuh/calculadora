@@ -136,7 +136,7 @@ export function handleFuncKey(
   }
 }
 
-//Memória
+//Memória da calculadora
 export function handleMemoryKey(
   key: string,
   expression: string,
@@ -154,7 +154,7 @@ export function handleMemoryKey(
     case "M-": {
       const match = expression.match(/-?\d+(\.\d+)?$/);
       const current = match ? parseFloat(match[0]) : 0;
-      addToMemory(setMemory, key === "M+" ? current : -current, decimalPlaces);
+      addToMemory(setMemory, key === "M+" ? current : -current, 10, decimalPlaces);
       break;
     }
 

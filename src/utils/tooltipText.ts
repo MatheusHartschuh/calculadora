@@ -1,3 +1,4 @@
+//Retorna tooltip para cada tecla
 export function getTooltipForKey(key: string): string | undefined {
   switch (key) {
     case "AC": return "Limpa tudo (All Clear)";

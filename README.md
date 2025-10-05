@@ -18,30 +18,32 @@ Esta Calculadora foi desenvolvida em **React** com o uso de **Vite**, e terá se
 ## Estrutura do projeto
 
 **Organização modular:**
-- `components/` → Interface e interação do usuário  
+- `components/` → Interface e interação do usuário, cada componente em sua pasta com `index.tsx` e `styles.ts`  
 - `logic/` → Funções principais da calculadora  
 - `utils/` → Formatação e funções auxiliares genéricas  
 - `style/` → Tema centralizado (cores, espaçamento, tipografia)
 
 ---
 
-**Principais arquivos:**
+**Principais arquivos e componentes:**
 
-| Arquivo | Descrição |
-|----------|------------|
+| Arquivo / Componente | Descrição |
+|----------------------|-----------|
 | `App.tsx` | Componente principal. Armazena estados globais (`expression`, `memory`, `history`, `decimalPlaces`) e controla modais. |
 | `calculate.ts` | Avalia expressões matemáticas com sanitização e arredondamento controlado. |
 | `helper.ts` | Funções auxiliares de formatação, memória e aplicação de resultados. |
 | `keyUtils.ts` | Normaliza teclas e trata inserção de números, operadores e funções. |
-| `display.tsx` | Mostra o valor atual no display e trata a entrada pelo teclado. |
-| `historyPanel.tsx` | Exibe o histórico de operações. |
-| `memoryPanel.tsx` | Mostra valores guardados na memória e permite apagá-los. |
+| `components/Display/index.tsx` | Mostra o valor atual no display e trata a entrada pelo teclado. |
+| `components/HistoryPanel/index.tsx` | Exibe o histórico de operações. |
+| `components/MemoryPanel/index.tsx` | Mostra valores guardados na memória e permite apagá-los. |
+| `components/Keypad/index.tsx` | Exibe o teclado virtual com números, operadores e funções. |
+| `components/Button/index.tsx` | Botão reutilizável com estilo dinâmico e tooltip. |
+| `components/TrigModal/index.tsx` | Modal com funções trigonométricas e botão de fechamento. |
+| `components/SettingsModal/index.tsx` | Modal de configurações para ajuste de casas decimais. |
 
 ---
 
 ## Configuração de casas decimais
 
-No modal de configurações (`settingsModal.tsx`), o usuário pode definir quantas casas decimais deseja exibir (padrão = 6).  
+No modal de configurações (`components/SettingsModal/index.tsx`), o usuário pode definir quantas casas decimais deseja exibir (padrão = 6).  
 Futuras opções de personalização da calculadora poderão ser incluídas nesse modal.
-
----

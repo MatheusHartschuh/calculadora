@@ -1,9 +1,9 @@
-// src/logic/handleKeyPress.ts
 import { normalizeKey, getKeyType, appendNumber, appendOperator, getLastNumberInfo } from "../utils/keyUtils";
 import { handleErrorState, handleActionKey, handleFuncKey, handleMemoryKey } from "./keyHandlers";
 
 const MAX_LENGTH = 20;
 
+//Processamento do pressionamento de teclas
 export function handleKeyPress(
   rawKey: string,
   expression: string,
